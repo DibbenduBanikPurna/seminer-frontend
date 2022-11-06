@@ -33,6 +33,7 @@ const Register = () => {
             return;
         }
         signUp(loginData.name, loginData.email, loginData.password, history)
+        alert("Register Successfully")
     }
     return (
         <div className='container'>

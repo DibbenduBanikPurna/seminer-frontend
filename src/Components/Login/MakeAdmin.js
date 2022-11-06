@@ -31,14 +31,19 @@ const MakeAdmin = () => {
 
     }
     return (
-        <div>
-             <h2>Make an admin</h2>
+        <div className="container">
+            <div className='row'>
+                <div className='col-md-4 m-auto'>
+                <h2>Make an admin</h2>
             <form onSubmit={handleAdminSubmit}>
                 <TextField type="email" onBlur={handleBlur} id="standard-basic" label="Email" variant="standard" />
 
                 <Button type='submit' variant='contained'>Make Admin</Button>
             </form>
             {success && <Alert severity="success">Made Admin Successfully</Alert>}
+                </div>
+            </div>
+             
         </div>
     );
 };

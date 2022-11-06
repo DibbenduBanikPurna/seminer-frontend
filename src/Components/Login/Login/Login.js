@@ -8,7 +8,7 @@ import { Button } from '@mui/material';
 //import Alert from '@mui/material/Alert';
 const Login = () => {
     const [loginData, setLoginData] = useState({})
-    const {signIn, user, isLoading,signInUsingGoogle}=useFirebase()
+    const {signIn, users,signInUsingGoogle}=useFirebase()
     //const [welcome,setWelcome]=useState(false)
     //console.log(user)
     const location = useLocation()
@@ -18,6 +18,7 @@ const Login = () => {
         const field = e.target.name;
         const value = e.target.value
         const newData = { ...loginData };
+       // const {users}=useFirebase()
         newData[field] = value
         setLoginData(newData)
 
@@ -26,14 +27,34 @@ const Login = () => {
     const handleLogInSubmit = (e) => {
         e.preventDefault()
         signIn(loginData.email, loginData.password, location, history)
+        fetch('http://localhost:5000/users',{
+            method:"POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify( {email:users.email })
 
+        }).then(res=>res.json())
+        .then(data=>{
+            console.log(data)
+        })
 
     }
 
+    const handleGoggleSignIn=()=>{
+        signInUsingGoogle(location,history)
+        fetch('http://localhost:5000/users',{
+            method:"POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify( {email:users.email })
+
+        }).then(res=>res.json())
+        .then(data=>{
+            console.log(data)
+        })
+    }
     return (
         <div className='login'>
                 
-                <div className='text-center text-info'><h1>Welcome To MBSTU Seminer Library</h1></div>
+                <div className='text-center text-info'><h1>Welcome To MBSTU</h1></div>
             
             <div className='col-md-3 m-auto border border-primary bg-dark p-5'>
                     <p className='text-center mt-5'>Log-in</p>
@@ -43,15 +64,10 @@ const Login = () => {
 
                         <Button sx={{ width: 1, m: 1 }} type="submit" variant='contained'>LOGIN</Button>
 
-                        <Link to="/register">  <Button color="inherit">NEW USER?PLEASE REGISTER</Button> </Link>
-                        {/* {isLoading && <CircularProgress />} */}
-                        {/* {user.email && <Alert severity="success">User Created Successfully</Alert>} */}
-                        {/* {
-                            authError && <Alert severity="error">{authError}!</Alert>
-
-                        } */}
+                        <Link to="/register">  <Button color="inherit">NEW USER? Create New Account</Button> </Link>
+                      
                         <p>---------------------</p>
-                        <button className='btn btn-warning' onClick={()=>signInUsingGoogle(location,history)}>Login With Google</button>
+                        <button className='btn btn-warning' onClick={handleGoggleSignIn}>Login With Google</button>
 
                     </form>
 
